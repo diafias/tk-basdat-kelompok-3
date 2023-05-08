@@ -16,3 +16,9 @@ def tes_kualifikasi(request):
 
 def pertanyaan_kualifikasi(request):
     return render(request, 'pertanyaan_kualifikasi.html')
+
+def daftar_atlet(request):
+    return render(request, 'daftar_atlet.html')
+
+def list_atlet(request):
+    return render(request, 'list_atlet.html')
