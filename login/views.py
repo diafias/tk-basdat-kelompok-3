@@ -18,3 +18,27 @@ def landing_page(request):
 
 def login_page(request):
     return render(request, 'login_page.html')
+
+def daftar_sponsor_untuk_atlet(request):
+    return render(request, 'daftar_sponsor_untuk_atlet.html')
+
+def read_list_event(request):
+    return render(request, 'read_list_event.html')
+
+def quarterfinals_page(request):
+    return render(request,'matches_page/quarterfinals_page.html')
+
+def finals_page(request):
+    return render(request,'matches_page/finals_page.html')
+
+def third_place_page(request):
+    return render(request,'matches_page/third_place_page.html')
+
+def semifinals_page(request):
+    return render(request,'matches_page/semifinals_page.html')
+
+def game_results_page(request):
+    return render(request, 'game_results_page.html')
+
+def hasil_pertandingan_page(request):
+    return render(request, 'hasil_pertandingan_page.html')
