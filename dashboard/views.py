@@ -10,3 +10,9 @@ def dashboard_pelatih_page(request):
 
 def dashboard_umpire_page(request):
     return render(request, 'dashboard_umpire_page.html')
+
+def tes_kualifikasi(request):
+    return render(request, 'tes_kualifikasi.html')
+
+def pertanyaan_kualifikasi(request):
+    return render(request, 'pertanyaan_kualifikasi.html')
