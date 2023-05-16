@@ -22,7 +22,6 @@ urlpatterns = [
     path('daftar_akun_pelatih/', show_daftar_akun_pelatih, name='daftar_akun_pelatih'),
     path('daftar_akun_umpire/', show_daftar_akun_umpire, name='daftar_akun_umpire'),
     path('login_page/', login_page, name='login_page'),
-    path('daftar_sponsor_untuk_atlet/', daftar_sponsor_untuk_atlet, name='daftar_sponsor_untuk_atlet'),
     path('read_list_event/', read_list_event, name='read_list_event'),
     path('quarterfinals_page/', quarterfinals_page, name='quarterfinals_page'),
     path('finals_page/', finals_page, name='finals_page'),
