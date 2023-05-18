@@ -24,4 +24,10 @@ def get_query(str):
     finally:
         cursor.close()
         return result
+    
+def insert_row(str):
+    with connection.cursor() as cursor:
+        cursor.execute(str)
+    
+    connection.commit()
 

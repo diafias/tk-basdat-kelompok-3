@@ -13,6 +13,7 @@ from login.views import third_place_page
 from login.views import semifinals_page
 from login.views import game_results_page
 from login.views import hasil_pertandingan_page
+from login.views import logout
 app_name = 'login'
 
 urlpatterns = [
@@ -29,4 +30,5 @@ urlpatterns = [
     path('semifinals_page/', semifinals_page, name='semifinals_page'),
     path('game_results_page/', game_results_page, name='game_results_page'),
     path('hasil_pertandingan_page/', hasil_pertandingan_page, name='hasil_pertandingan_page'),
+    path('logout/', logout, name='logout'),
 ]

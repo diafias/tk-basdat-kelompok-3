@@ -20,19 +20,20 @@
         <h4 style="text-align: center; font-weight:bold;">Form Login</h4>
           <div class="card" style="max-width:500px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
             <div class="card-body">
-            <form>
+            <form method="post" action="">
+                {% csrf_token %}
                 <div class="col-md-12">
                     <label style="font-family: 'Montserrat', sans-serif;">Nama</label> <br>
-                    <input class="form-control" style="border-radius:10px;">
+                    <input type="text" name="nama" class="form-control" style="border-radius:10px;"><br>
                 </div>
                 
                 <div class="col-md-12" style="padding-top:8px;">
                     <label style="font-family: 'Montserrat', sans-serif;">Email</label> <br>
-                    <input class="form-control" style="border-radius:10px;"><br>
+                    <input type="text" name="email" class="form-control" style="border-radius:10px;"><br>
                 </div>
 
                 <div style="padding-top:10px; text-align:center;">
-                    <a href="#" class="btn btn-outline-dark mr-3">Login</a>
+                    <a><input type="submit" class="btn btn-outline-dark mr-3" value="Login"></a>
                 </div>
             </form>
             </div>

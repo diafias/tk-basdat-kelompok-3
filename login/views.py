@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from project_django.utils import get_query
 
 # Create your views here.
 def pilih_role(request):
@@ -17,6 +18,12 @@ def landing_page(request):
     return render(request, 'landing_page.html')
 
 def login_page(request):
+    if request.method == "POST":
+        nama = request.POST.get('nama')
+        email = request.POST.get('email')
+        result = authenticate(request, nama, email)
+        if result:
+            return redirect('/')
     return render(request, 'login_page.html')
 
 def daftar_sponsor_untuk_atlet(request):
@@ -42,3 +49,22 @@ def game_results_page(request):
 
 def hasil_pertandingan_page(request):
     return render(request, 'hasil_pertandingan_page.html')
+
+def logout(request):
+    request.session.flush()
+    return redirect('/landing_page')
+
+def authenticate(request, nama, email):
+    data = get_query("""
+    SELECT *
+    FROM MEMBER
+    WHERE nama = '{nama_member}' AND email = '{email_member}'
+    """.format(nama_member = nama, email_member = email))
+    
+    if data == []:
+        print("USER NOT FOUND")
+        return False
+    else:
+        print("USER FOUND")
+        request.session['user_id'] = str(data[0].id)
+        return True
