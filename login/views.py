@@ -23,36 +23,17 @@ def login_page(request):
         email = request.POST.get('email')
         result = authenticate(request, nama, email)
         if result:
-            return redirect('/')
+            if request.session['role'] == 'atlet':
+                return redirect('/atlet')
+            elif request.session['role'] == 'pelatih':
+                return redirect('/pelatih')
+            elif request.session['role'] == 'umpire':
+                return redirect('/umpire')
     return render(request, 'login_page.html')
-
-def daftar_sponsor_untuk_atlet(request):
-    return render(request, 'daftar_sponsor_untuk_atlet.html')
-
-def read_list_event(request):
-    return render(request, 'read_list_event.html')
-
-def quarterfinals_page(request):
-    return render(request,'matches_page/quarterfinals_page.html')
-
-def finals_page(request):
-    return render(request,'matches_page/finals_page.html')
-
-def third_place_page(request):
-    return render(request,'matches_page/third_place_page.html')
-
-def semifinals_page(request):
-    return render(request,'matches_page/semifinals_page.html')
-
-def game_results_page(request):
-    return render(request, 'game_results_page.html')
-
-def hasil_pertandingan_page(request):
-    return render(request, 'hasil_pertandingan_page.html')
 
 def logout(request):
     request.session.flush()
-    return redirect('/landing_page')
+    return redirect('/')
 
 def authenticate(request, nama, email):
     data = get_query("""
@@ -67,4 +48,11 @@ def authenticate(request, nama, email):
     else:
         print("USER FOUND")
         request.session['user_id'] = str(data[0].id)
+        if get_query("SELECT id FROM ATLET WHERE id = '{id_member}'".format(id_member = request.session['user_id'])) != []:
+            request.session['role'] = 'atlet'
+        elif get_query("SELECT id FROM PELATIH WHERE id = '{id_member}'".format(id_member = request.session['user_id'])) != []:
+            request.session['role'] = 'pelatih'
+        elif get_query("SELECT id FROM UMPIRE WHERE id = '{id_member}'".format(id_member = request.session['user_id'])) != []:
+            request.session['role'] = 'umpire'
         return True
+    

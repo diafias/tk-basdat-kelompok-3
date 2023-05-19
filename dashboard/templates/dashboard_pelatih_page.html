@@ -21,40 +21,45 @@
           <div class="card" style="max-width:800px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
             <div class="card-body">
             <form>
+                {% for info in info_pelatih %}
+                    
                 <div class="md-3 row">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Nama Lengkap</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{info.nama}}">
                     </div>
                 </div>
                 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Negara</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        <input readonly class="form-control" style="border-radius:10px;" value="-">
                     </div>
                 </div>
-
+                
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Email</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{info.email}}">
                     </div>
                 </div>
-
+                
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Spesialisasi Kategori</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        {% for s in info_spesialisasi %}
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{s.spesialisasi}}">
+                        {% endfor %}
                     </div>
                 </div>
-
+                
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Tanggal Mulai</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{info.tanggal_mulai}}">
                     </div>
                 </div>
+                {% endfor %}
             </form>
             </div>
           </div>

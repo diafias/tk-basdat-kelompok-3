@@ -19,15 +19,9 @@ def get_query(str):
         result = namedtuplefetchall(cursor)
     except Exception as e:
         print(e)
-        
         result = [e]
     finally:
         cursor.close()
         return result
-    
-def insert_row(str):
-    with connection.cursor() as cursor:
-        cursor.execute(str)
-    
-    connection.commit()
+
 

@@ -21,82 +21,98 @@
           <div class="card" style="max-width:800px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
             <div class="card-body">
             <form>
+                {% for info in info_atlet %}
                 <div class="md-3 row">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Nama Lengkap</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{info.nama}}">
                     </div>
                 </div>
                 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Negara</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{info.negara_asal}}">
                     </div>
                 </div>
 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Email</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{info.email}}">
                     </div>
                 </div>
 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Tanggal lahir</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{info.tgl_lahir}}">
                     </div>
                 </div>
 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Play</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        {% if info.play_right %}
+                            <input readonly class="form-control" style="border-radius:10px;" value="Right Hand">
+                        {% else %}
+                            <input readonly class="form-control" style="border-radius:10px;" value="Left Hand">
+                        {% endif %}
                     </div>
                 </div>
 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Tinggi badan</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{info.height}}">
                     </div>
                 </div>
 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Jenis kelamin</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        {% if info.jenis_kelamin %}
+                            <input readonly class="form-control" style="border-radius:10px;" value="Putra">
+                        {% else %}
+                            <input readonly class="form-control" style="border-radius:10px;" value="Putri">
+                        {% endif %}
                     </div>
                 </div>
 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Pelatih</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="">
+                        {% for pelatih in info_pelatih %}
+                            <input readonly class="form-control" style="border-radius:10px;" value="{{pelatih.nama}}">
+                        {% endfor %}
                     </div>
                 </div>
 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Status</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="Not Qualified">
+                        {% if status %}
+                            <input readonly class="form-control" style="border-radius:10px;" value="Qualified">
+                        {% else %}
+                            <input readonly class="form-control" style="border-radius:10px;" value="Not Qualified">
+                        {% endif %}
                     </div>
                 </div>
 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">World rank</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="-">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{info.world_rank}}">
                     </div>
                 </div>
 
                 <div class="md-3 row" style="padding-top:8px;">
                     <label class="col-sm-3 col-form-label" style="font-family: 'Montserrat', sans-serif;">Total poin</label>
                     <div class="col-sm-9">
-                        <input readonly class="form-control" style="border-radius:10px;" value="0">
+                        <input readonly class="form-control" style="border-radius:10px;" value="{{total_point}}">
                     </div>
                 </div>
+                {% endfor %}
             </form>
             </div>
           </div>

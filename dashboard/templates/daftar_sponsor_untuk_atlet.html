@@ -27,7 +27,7 @@
                         <label for="brand_name" style=" font-family: 'Montserrat', sans-serif; ">Nama Sponsor</label> <br>
                         <select id="brand_name" name="brand_name" class="form-control " style="border-radius:10px; ">
                             {% for nama_sponsor in list_sponsor %}
-                            <option>{{ nama_sponsor.nama_brand }}</option>
+                                <option value="{{ nama_sponsor.nama_brand }}">{{ nama_sponsor.nama_brand }}</option>
                             {% endfor %}
                         </select>
                     </div>
