@@ -31,8 +31,6 @@ def dashboard_atlet_page(request):
     WHERE id_atlet = '{id_atlet}'
     """.format(id_atlet = request.session['user_id']))
 
-    print(total_point)
-
     context = {
         'info_atlet': info_atlet,
         'info_pelatih': info_pelatih,
@@ -128,10 +126,32 @@ def game_results_page(request):
     return render(request, 'game_results_page.html')
 
 def enrolled_event(request):
-    #Read
     id_user = request.session['user_id']
+
+    if request.method == "POST":
+        tahun = request.POST.get('tahun')
+        nama_event = request.POST.get('event_name')
+        
+        get_query("""
+        DELETE FROM peserta_mendaftar_event
+        WHERE tahun = '{tahun}' AND nama_event = '{nama_event}'
+        AND nomor_peserta IN (
+            SELECT nomor_peserta
+            FROM peserta_kompetisi
+            WHERE id_atlet_kualifikasi = '{id_atlet}'
+            OR id_atlet_ganda IN (
+                SELECT id_atlet_ganda
+                FROM atlet_ganda
+                WHERE id_atlet_kualifikasi = '{id_atlet}'
+                OR id_atlet_kualifikasi_2 = '{id_atlet}'
+            )
+        )
+        """.format(tahun = tahun, nama_event = nama_event, id_atlet = id_user))
+        
+
+
     enrolled_event = get_query("""
-    SELECT e.nama_event, e.tahun, e.nama_stadium, e.kategori_superseries, e.total_hadiah, e.tgl_mulai, e.tgl_selesai
+    SELECT DISTINCT e.nama_event, e.tahun, e.nama_stadium, e.kategori_superseries, e.total_hadiah, e.tgl_mulai, e.tgl_selesai
     FROM ATLET a
     JOIN ATLET_KUALIFIKASI ak ON a.id = ak.id_atlet
     LEFT JOIN ATLET_GANDA ag ON ak.id_atlet = ag.id_atlet_kualifikasi OR ak.id_atlet = ag.id_atlet_kualifikasi_2
@@ -150,7 +170,7 @@ def enrolled_event(request):
 def enrolled_event_partai_kompetisi(request):
     id_user = request.session['user_id']
     enrolled_partai = get_query("""
-    SELECT ppk.nama_event, ppk.tahun_event, ppk.jenis_partai, e.nama_stadium, e.kategori_superseries, e.tgl_mulai, e.tgl_selesai
+    SELECT DISTINCT ppk.nama_event, ppk.tahun_event, ppk.jenis_partai, e.nama_stadium, e.kategori_superseries, e.tgl_mulai, e.tgl_selesai
     FROM ATLET a
     JOIN ATLET_KUALIFIKASI ak ON a.id = ak.id_atlet
     LEFT JOIN ATLET_GANDA ag ON ak.id_atlet = ag.id_atlet_kualifikasi OR ak.id_atlet = ag.id_atlet_kualifikasi_2
@@ -213,3 +233,4 @@ def is_authenticated(request):
         return True
     except KeyError:
         return False
+    
