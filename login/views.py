@@ -12,6 +12,28 @@ def show_daftar_akun_pelatih(request):
     return render(request, 'daftar_akun_pelatih.html')
 
 def show_daftar_akun_umpire(request):
+    if request.method == "POST":
+        nama = request.POST.get('nama')
+        email = request.POST.get('email')
+        negara = request.POST.get('negara')
+        
+        get_query("""
+        INSERT INTO MEMBER (nama, email)
+        VALUES ('{nama_member}', '{email_member}')
+        """.format(nama_member = nama, email_member = email))
+
+        id_member = get_query("""
+        SELECT id FROM MEMBER 
+        WHERE nama = '{nama_member}' AND email = '{email_member}'
+        """.format(nama_member = nama, email_member = email))[0]
+        
+        get_query("""
+        INSERT INTO UMPIRE (id, negara)
+        VALUES ('{id_member}', '{negara_member}')
+        """.format(id_member = id_member, negara_member = negara))
+
+        return redirect('/login_page')
+
     return render(request, 'daftar_akun_umpire.html')
 
 def landing_page(request):
