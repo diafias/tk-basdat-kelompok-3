@@ -31,6 +31,8 @@ def show_daftar_akun_atlet(request):
         INSERT INTO ATLET (id, tgl_lahir, negara_asal, play_right, height, jenis_kelamin)
         VALUES ('{id_member}', '{tanggal_lahir_member}', '{negara_member}', {play_member}, {tinggi_badan_member}, {jenis_kelamin_member})
         """.format(id_member = id_member, tanggal_lahir_member = tanggal_lahir, negara_member = negara, play_member = play, tinggi_badan_member = tinggi_badan, jenis_kelamin_member = jenis_kelamin))
+
+        return redirect('/login_page')
         
     return render(request, 'daftar_akun_atlet.html')
 
