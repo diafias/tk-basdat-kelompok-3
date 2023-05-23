@@ -21,57 +21,69 @@
         <h4 style="text-align: center; font-weight:bold;">Form Registrasi Atlet</h4>
           <div class="card" style="max-width:500px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
             <div class="card-body">
-              <form>
-              <div class="col-md-12">
-                <label style="font-family: 'Montserrat', sans-serif;">Nama</label> <br>
-                <input class="form-control" style="border-radius:10px;">
-              </div>
+              <form method="post" action="">
+                {% csrf_token %}
+                <div class="col-md-12">
+                  <label style="font-family: 'Montserrat', sans-serif;">Nama</label> <br>
+                  <input name="nama" class="form-control" style="border-radius:10px;">
+                </div>
+
+                <div class="col-md-12" style="padding-top:8px;">
+                  <label style="font-family: 'Montserrat', sans-serif;">Email</label> <br>
+                  <input name="email" class="form-control" style="border-radius:10px;">
+                </div>
               
-              <div class="col-md-12" style="padding-top:8px;">
-                <label style="font-family: 'Montserrat', sans-serif;">Email</label> <br>
-                <input class="form-control" style="border-radius:10px;">
-              </div>
-    
-              <div class="col-md-12" style="padding-top:8px;">
-                <label style="font-family: 'Montserrat', sans-serif;">Negara</label> <br>
-                <input class="form-control" style="border-radius:10px;">
-              </div>
-
-              <div class="col-md-12" style="padding-top:8px;">
-                <label style="font-family: 'Montserrat', sans-serif;">Tanggal</label> <br>
-                <input class="form-control" style="border-radius:10px;">
-              </div>
-
-              <div class="col-md-12" style="padding-top:8px;">
-                <label style="font-family: 'Montserrat', sans-serif;">Play</label> <br>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Left
-                  </label>
+                <div class="col-md-12" style="padding-top:8px;">
+                  <label style="font-family: 'Montserrat', sans-serif;">Negara</label> <br>
+                  <input name="negara" class="form-control" style="border-radius:10px;">
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                  <label class="form-check-label" for="flexRadioDefault2">
-                    Right
-                  </label>
+
+                <div class="col-md-12 " style="padding-top:8px; ">
+                  <label for="tanggal_lahir" style=" font-family: 'Montserrat', sans-serif; ">Tanggal Lahir</label> <br>
+                  <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control " style="border-radius:10px; ">
                 </div>
-              </div>
 
-              <div class="col-md-12" style="padding-top:8px;">
-                <label style="font-family: 'Montserrat', sans-serif;">Tinggi Badan</label> <br>
-                <input class="form-control" style="border-radius:10px;">
-              </div>
+                <div class="col-md-12" style="padding-top:8px;">
+                  <label style="font-family: 'Montserrat', sans-serif;">Play</label> <br>
+                  <div class="form-check">
+                    <input name="play" value="false" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Left
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input name="play" value="true" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Right
+                    </label>
+                  </div>
+                </div>
 
-              <div class="col-md-12"style="padding-top:8px;">
-                <label style="font-family: 'Montserrat', sans-serif;">Jenis Kelamin</label> <br>
-                <input class="form-control" style="border-radius:10px;">
-              </div>
+                <div class="col-md-12" style="padding-top:8px;">
+                  <label style="font-family: 'Montserrat', sans-serif;">Tinggi Badan</label> <br>
+                  <input name="tinggi_badan" class="form-control" style="border-radius:10px;">
+                </div>
 
-              <div style="padding-top:30px; text-align:center;">
-                <a href="{% url 'login:login_page' %}" class="btn btn-outline-dark mr-3">Sign Up</a>
-              </div>
-      
+                <div class="col-md-12"style="padding-top:8px;">
+                  <label style="font-family: 'Montserrat', sans-serif;">Jenis Kelamin</label> <br>
+                  <div class="form-check">
+                    <input name="jenis_kelamin" value="true" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Laki-laki
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input name="jenis_kelamin" value="false" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Perempuan
+                    </label>
+                  </div>
+                </div>
+
+                <div style="padding-top:30px; text-align:center;">
+                  <a><input type="submit" class="btn btn-outline-dark mr-3" value="Sign Up"></a>
+                </div>
+              
               </form>
             </div>
           </div>

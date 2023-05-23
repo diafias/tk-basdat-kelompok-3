@@ -6,9 +6,70 @@ def pilih_role(request):
     return render(request, 'pilih_role.html')
 
 def show_daftar_akun_atlet(request):
+    if request.method == "POST":
+        nama = request.POST.get('nama')
+        email = request.POST.get('email')
+        negara = request.POST.get('negara')
+        tanggal_lahir = request.POST.get('tanggal_lahir')
+        tinggi_badan = request.POST.get('tinggi_badan')
+        play = request.POST.get('play')
+        jenis_kelamin = request.POST.get('jenis_kelamin')
+
+        print(nama, email, negara, tanggal_lahir, tinggi_badan, play, jenis_kelamin)
+
+        get_query("""
+        INSERT INTO MEMBER (nama, email)
+        VALUES ('{nama_member}', '{email_member}')
+        """.format(nama_member = nama, email_member = email))
+
+        id_member = get_query("""
+        SELECT id FROM MEMBER
+        WHERE nama = '{nama_member}' AND email = '{email_member}'
+        """.format(nama_member = nama, email_member = email))[0].id
+
+        get_query("""
+        INSERT INTO ATLET (id, tgl_lahir, negara_asal, play_right, height, jenis_kelamin)
+        VALUES ('{id_member}', '{tanggal_lahir_member}', '{negara_member}', {play_member}, {tinggi_badan_member}, {jenis_kelamin_member})
+        """.format(id_member = id_member, tanggal_lahir_member = tanggal_lahir, negara_member = negara, play_member = play, tinggi_badan_member = tinggi_badan, jenis_kelamin_member = jenis_kelamin))
+        
     return render(request, 'daftar_akun_atlet.html')
 
 def show_daftar_akun_pelatih(request):
+    if request.method == "POST":
+        nama = request.POST.get('nama')
+        email = request.POST.get('email')
+        negara = request.POST.get('negara')
+        tanggal_mulai = request.POST.get('tanggal_mulai')
+        spesialisasi = request.POST.getlist('spesialisasi')
+
+        get_query("""
+        INSERT INTO MEMBER (nama, email)
+        VALUES ('{nama_member}', '{email_member}')
+        """.format(nama_member = nama, email_member = email))
+
+        id_member = get_query("""
+        SELECT id FROM MEMBER
+        WHERE nama = '{nama_member}' AND email = '{email_member}'
+        """.format(nama_member = nama, email_member = email))[0].id
+
+        get_query("""
+        INSERT INTO PELATIH (id, tanggal_mulai)
+        VALUES ('{id_member}', '{tanggal_mulai_member}')
+        """.format(id_member = id_member, tanggal_mulai_member = tanggal_mulai))
+
+        for spesialisasi_pelatih in spesialisasi:
+            id_spesialiasi = get_query("""
+            SELECT id FROM SPESIALISASI 
+            WHERE spesialisasi = '{nama_spesialisasi}'
+            """.format(nama_spesialisasi = spesialisasi_pelatih))[0].id
+
+            get_query("""
+            INSERT INTO PELATIH_SPESIALISASI (id_pelatih, id_spesialisasi)
+            VALUES ('{id_pelatih_member}', '{id_spesialisasi_pelatih}')
+            """.format(id_pelatih_member = id_member, id_spesialisasi_pelatih = id_spesialiasi))
+        
+        return redirect('/login_page')
+
     return render(request, 'daftar_akun_pelatih.html')
 
 def show_daftar_akun_umpire(request):
