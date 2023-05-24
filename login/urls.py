@@ -1,5 +1,5 @@
 from django.urls import path
-from login.views import pilih_role
+from login.views import error_page, pilih_role
 from login.views import show_daftar_akun_atlet
 from login.views import show_daftar_akun_pelatih
 from login.views import show_daftar_akun_umpire
@@ -16,4 +16,5 @@ urlpatterns = [
     path('daftar_akun_umpire/', show_daftar_akun_umpire, name='daftar_akun_umpire'),
     path('login_page/', login_page, name='login_page'),
     path('logout/', logout, name='logout'),
+    path('error/', error_page, name='error')
 ]
