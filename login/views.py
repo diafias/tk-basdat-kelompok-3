@@ -88,7 +88,7 @@ def show_daftar_akun_umpire(request):
         id_member = get_query("""
         SELECT id FROM MEMBER 
         WHERE nama = '{nama_member}' AND email = '{email_member}'
-        """.format(nama_member = nama, email_member = email))[0]
+        """.format(nama_member = nama, email_member = email))[0].id
         
         get_query("""
         INSERT INTO UMPIRE (id, negara)
