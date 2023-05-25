@@ -18,25 +18,32 @@
 <body>
     {% include 'navbar_pelatih.html'%} 
     <div class="container" style="padding-top:200px ;">
-        <h4 style="text-align: center; font-weight:bold;">Daftar Atlet</h4>
+        <h4 style="text-align: center; font-weight:bold;">Create Latih Atlet</h4>
           <div class="card" style="max-width:500px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
             <div class="card-body">
-            <form>
-                <div class="col-md-12" style="padding-top:8px;">
-                    <label style="font-family: 'Montserrat', sans-serif;">Atlet yang mau didaftarkan</label> <br>
-                      <select name="atlet" id="atlet" class="form-select" aria-label="Default select example">
-                        <option value="jojo">Jojo</option>
-                        <option value="susanti">Susanti</option>
-                        <option value="michael">Michael</option>
-                        <option value="adi">Adi</option>
-                      </select>
-                      <br>
-                </div>
-
-                <div style="padding-top:10px; text-align:center;">
-                    <a href="{% url 'dashboard:list_atlet' %}" class="btn btn-outline-dark mr-3">Submit</a>
-                </div>
-            </form>
+                <form method="POST" action="" id="atlet_form">
+                    {% csrf_token %}
+                    <table>
+                      <tr>
+                        <td>
+                          Nama atlet:
+                        </td>
+                        <td class="form">
+                          <select class="form-select sponsor" name="nama_atlet" id="nama_atlet" form="atlet_form">
+                            <option value="" disabled selected>
+                              Pilih
+                            </option>
+                            {% for atlet in list_atlet %}
+                              <option value="{{atlet.nama}}">{{ atlet.nama }}</option>
+                            {% endfor %}
+                          </select>
+                        </td>
+                      </tr>
+              
+                    </table>
+                    <button type="submit" class="btn btn-outline-light mr-3">Submit</button>
+                  </form>
+              
             </div>
           </div>
     </div>

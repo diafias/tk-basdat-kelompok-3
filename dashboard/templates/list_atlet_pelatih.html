@@ -16,44 +16,34 @@
 </head>
 </head>
 <body>
-    {% if is_pelatih %}
-        {% include 'navbar_pelatih.html'%}
-    {% elif is_umpire %}
-        {% include 'navbar_umpire.html'%}
-    {% endif %}
+    {% include 'navbar_pelatih.html'%} 
     <div class="container" style="padding-top:200px ;">
         <h4 style="text-align: center; font-weight:bold;">Daftar Atlet</h4>
           <div class="card" style="max-width:500px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
             <div class="card-body">
-            <table class="table">
-                <thead>
-                    <th scope="col">Nama Atlet</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">World Rank</th>
+              <table class="table">
+                <thead class="thead-primary">
+                  <tr>
+                    <th>Nama Atlet</th>
+                    <th>Email</th>
+                    <th>World Rank</th>
+                    <th></th>
+                  </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">Jojo</th>
-                        <td>jojo@gmail.com</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Susanti</th>
-                        <td>sus@gmail.com</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Michael</th>
-                        <td>michael@gmail.com</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Adi</th>
-                        <td>adi@gmai.com</td>
-                        <td>3</td>
-                    </tr>
+                  {% for atlet in atlet_dilatih %}
+                  <tr>
+                    <td>{{ atlet.nama }}</td>
+                    <td>{{ atlet.email }}</td>
+                    {% if atlet.world_rank %}
+                      <td>{{ atlet.world_rank }}</td>
+                    {% else %}
+                      <td>-</td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
                 </tbody>
-            </table>
+              </table>
             </div>
           </div>
     </div>
