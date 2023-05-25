@@ -3,8 +3,7 @@ from dashboard.views import dashboard_atlet_page, dashboard_pelatih_page, dashbo
 from dashboard.views import pertanyaan_kualifikasi, list_atlet_pelatih, list_atlet_umpire, daftar_event, daftar_event2, pilih_kategori
 from dashboard.views import read_list_event, hasil_pertandingan_page, quarterfinals_page, finals_page, third_place_page
 from dashboard.views import semifinals_page, game_results_page, enrolled_event, enrolled_event_partai_kompetisi
-from dashboard.views import daftar_sponsor_untuk_atlet, list_sponsor, list_atlet_create, list_ujian_kualifikasi
-from dashboard.views import create_ujian_kualifikasi
+from dashboard.views import daftar_sponsor_untuk_atlet, list_sponsor, list_atlet_create
 
 app_name = 'dashboard'
 
