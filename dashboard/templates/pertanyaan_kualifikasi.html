@@ -18,14 +18,49 @@
       function checkAnswer() {
     // Check if the user picked option 2 each time
     for (var i = 0; i < answers.length; i++) {
-      if (answers[i] !== 2) {
-        alert("Sorry, you are not qualified.");
-        return false;
-      }
+        if (answers[i] !== 2) {
+            alert("Sorry, you are not qualified.");
+            return false;
+        }
     }
     alert("Congratulations, you are qualified!");
+
+    // Send a POST request to your server to update the database
+    fetch('/update-status/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            status: 'Qualified',
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+
     return true;
-  }
+}
+// Function to get the CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
       function firstQuestion() {
     // Get the selected option
     var selectedOption;

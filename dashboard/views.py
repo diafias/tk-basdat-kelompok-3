@@ -81,10 +81,34 @@ def dashboard_umpire_page(request):
     return render(request, 'dashboard_umpire_page.html', context)
 
 def tes_kualifikasi(request):
-    return render(request, 'tes_kualifikasi.html')
+    info_ujian_kualifikasi = get_query("""
+    SELECT u.tahun, u.batch, u.tempat, u.tanggal
+    FROM UJIAN_KUALIFIKASI u
+    """)
+
+    context = {
+        'info_ujian_kualifikasi': info_ujian_kualifikasi,
+    }
+
+    return render(request, 'tes_kualifikasi.html', context)
 
 def pertanyaan_kualifikasi(request):
     return render(request, 'pertanyaan_kualifikasi.html')
+
+def list_ujian_kualifikasi(request):
+    info_ujian_kualifikasi = get_query("""
+    SELECT u.tahun, u.batch, u.tempat, u.tanggal
+    FROM UJIAN_KUALIFIKASI u
+    """)
+
+    context = {
+        'info_ujian_kualifikasi': info_ujian_kualifikasi,
+    }
+
+    return render(request, 'list_ujian_kualifikasi.html', context)
+
+def create_ujian_kualifikasi(request):
+    return render(request, 'create_ujian_kualifikasi.html')
 
 def list_atlet_create(request):
     id_user = request.session['user_id']
