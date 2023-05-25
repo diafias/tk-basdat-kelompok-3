@@ -222,10 +222,10 @@ def list_atlet_umpire(request):
     return render(request, 'list_atlet_umpire.html', context)
 
 def daftar_event(request):
-    # if request.session['role'] == 'atlet':
-    #     if request.session['qualified'] == False:
-    #         messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
-    #         return redirect('/atlet')
+    if request.session['role'] == 'atlet':
+        if request.session['qualified'] == False:
+            messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
+            return redirect('/atlet')
     list_stadium = get_query("""
     SELECT nama, negara, kapasitas FROM STADIUM
     """)
@@ -363,10 +363,10 @@ def enrolled_event_partai_kompetisi(request):
     return render(request, 'enrolled_event_partai_kompetisi.html', context)
 
 def daftar_sponsor_untuk_atlet(request):
-    # if request.session['role'] == 'atlet':
-    #     if request.session['qualified'] == False:
-    #         messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
-    #         return redirect('/atlet')        
+    if request.session['role'] == 'atlet':
+        if request.session['qualified'] == False:
+            messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
+            return redirect('/atlet')        
     id_user = request.session['user_id']
 
     if request.method == "POST":
