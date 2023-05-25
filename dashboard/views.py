@@ -103,11 +103,28 @@ def daftar_event(request):
         if request.session['qualified'] == False:
             messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
             return redirect('/atlet')
-    
-    return render(request, 'daftar_event.html')
+    id_user = request.session['user_id']
+    list_stadium = get_query("""
+    SELECT nama_stadium, negara, kapasitas
+    FROM STADIUM st, ATLET a
+    WHERE a.id_atlet = '{id_atlet}'
+    """.format(id_atlet=id_user))
+    context = {
+        'list_stadium': list_stadium,
+    }
+    return render(request, 'daftar_event.html', context)
 
 def daftar_event2(request):
-    return render(request, 'daftar_event2.html')
+    id_user = request.session['user_id']
+    list_event = get_query("""
+    SELECT E.nama_event, E.total_hadiah, E.kategori_superseries, S.kapasitas
+    FROM EVENT E, STADIUM S, ATLET A
+    WHERE S.nama = E.nama_stadium AND A.id_atlet = '{id_atlet}'
+    """.format(id_atlet=id_user))
+    context = {
+        'list_event': list_event,
+    }
+    return render(request, 'daftar_event2.html', context)
 
 def pilih_kategori(request):
     return render(request, 'pilih_kategori.html')
@@ -207,8 +224,7 @@ def daftar_sponsor_untuk_atlet(request):
     if request.session['role'] == 'atlet':
         if request.session['qualified'] == False:
             messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
-            return redirect('/atlet')
-        
+            return redirect('/atlet')        
     id_user = request.session['user_id']
 
     if request.method == "POST":

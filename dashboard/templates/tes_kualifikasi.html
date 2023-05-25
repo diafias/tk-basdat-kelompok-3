@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,53 +10,55 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <style>
         .card {
-          box-shadow: 0 0 10px rgba(0,0,0,0.3);
-          transition: all 0.2s ease-in-out;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease-in-out;
         }
     </style>
 </head>
 </head>
+
 <body>
-    {% include 'navbar_atlet.html'%} 
+    {% include 'navbar_atlet.html'%}
     <div class="container" style="padding-top:200px ;">
         <h4 style="text-align: center; font-weight:bold;">Form Data Kualifikasi</h4>
-          <div class="card" style="max-width:500px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
+        <div class="card" style="max-width:500px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
             <div class="card-body">
-            <form>
-                <div class="col-md-12">
-                    <label style="font-family: 'Montserrat', sans-serif;">Nomor Batch</label> <br>
-                    <input class="form-control" style="border-radius:10px;">
-                </div>
-                
-                <div class="col-md-12" style="padding-top:8px;">
-                    <label style="font-family: 'Montserrat', sans-serif;">Tempat Pelaksanaan</label> <br>
-                    <select name="place" id="place" class="form-select" aria-label="Default select example">
+                <form>
+                    <div class="col-md-12">
+                        <label style="font-family: 'Montserrat', sans-serif;">Nomor Batch</label> <br>
+                        <input class="form-control" style="border-radius:10px;">
+                    </div>
+
+                    <div class="col-md-12" style="padding-top:8px;">
+                        <label style="font-family: 'Montserrat', sans-serif;">Tempat Pelaksanaan</label> <br>
+                        <select name="place" id="place" class="form-select" aria-label="Default select example">
                         <option value="jakarta">Jakarta</option>
                         <option value="Sydney">Sydney</option>
                         <option value="melbourne">Melbourne</option>
                         <option value="auckland">Auckland</option>
                       </select>
-                      <br>
-                </div>
+                        <br>
+                    </div>
 
-                <div class="col-md-12" style="padding-top:8px;">
-                    <label style="font-family: 'Montserrat', sans-serif;">Tanggal Pelaksanaan</label> <br>
-                    <select name="place" id="place" class="form-select" aria-label="Default select example">
+                    <div class="col-md-12" style="padding-top:8px;">
+                        <label style="font-family: 'Montserrat', sans-serif;">Tanggal Pelaksanaan</label> <br>
+                        <select name="place" id="place" class="form-select" aria-label="Default select example">
                         <option value="420">20 April</option>
                         <option value="69">9 Juni</option>
                         <option value="314">14 Maret</option>
                         <option value="911">11 September</option>
                       </select>
-                      <br>
-                </div>
+                        <br>
+                    </div>
 
-                <div style="padding-top:10px; text-align:center;">
-                    <a href="{% url 'dashboard:pertanyaan_kualifikasi' %}" class="btn btn-outline-dark mr-3">Next</a>
-                </div>
-            </form>
+                    <div style="padding-top:10px; text-align:center;">
+                        <a href="{% url 'dashboard:pertanyaan_kualifikasi' %}" class="btn btn-outline-dark mr-3">Next</a>
+                    </div>
+                </form>
             </div>
-          </div>
+        </div>
     </div>
-    {% include 'footer.html'%} 
+    {% include 'footer.html'%}
 </body>
+
 </html>
