@@ -16,6 +16,17 @@
 </head>
 <body>
     {% include 'navbar_atlet.html'%} 
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags %}  
+                <!-- Error Alert -->
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <strong>Error!</strong> {{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     <div class="container" style="padding-top:80px; padding-bottom:50px; margin-top: 62px;">
         <h4 style="text-align: center; font-weight:bold;">Dashboard Atlet</h4>
           <div class="card" style="max-width:800px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">

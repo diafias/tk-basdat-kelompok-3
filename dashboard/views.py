@@ -1,5 +1,7 @@
 from django.shortcuts import redirect, render
 from project_django.utils import get_query
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -25,6 +27,8 @@ def dashboard_atlet_page(request):
     SELECT * from ATLET_KUALIFIKASI WHERE id_atlet = '{id_atlet}'
     """.format(id_atlet = request.session['user_id'])) != []
 
+    request.session['qualified'] = status
+
     total_point = get_query("""
     SELECT SUM(total_point) AS sum_total_point
     FROM public.point_history
@@ -37,7 +41,6 @@ def dashboard_atlet_page(request):
         'status': status,
         'total_point': total_point[0].sum_total_point,
     }
-    
 
     return render(request, 'dashboard_atlet_page.html', context)
 
@@ -96,6 +99,11 @@ def list_atlet(request):
     return render(request, 'list_atlet.html', context)
 
 def daftar_event(request):
+    if request.session['role'] == 'atlet':
+        if request.session['qualified'] == False:
+            messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
+            return redirect('/atlet')
+    
     return render(request, 'daftar_event.html')
 
 def daftar_event2(request):
@@ -126,6 +134,11 @@ def game_results_page(request):
     return render(request, 'game_results_page.html')
 
 def enrolled_event(request):
+    if request.session['role'] == 'atlet':
+        if request.session['qualified'] == False:
+            messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
+            return redirect('/atlet')
+        
     id_user = request.session['user_id']
 
     if request.method == "POST":
@@ -168,6 +181,11 @@ def enrolled_event(request):
     return render(request, 'enrolled_event.html', context)
 
 def enrolled_event_partai_kompetisi(request):
+    if request.session['role'] == 'atlet':
+        if request.session['qualified'] == False:
+            messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
+            return redirect('/atlet')
+            
     id_user = request.session['user_id']
     enrolled_partai = get_query("""
     SELECT DISTINCT ppk.nama_event, ppk.tahun_event, ppk.jenis_partai, e.nama_stadium, e.kategori_superseries, e.tgl_mulai, e.tgl_selesai
@@ -186,6 +204,11 @@ def enrolled_event_partai_kompetisi(request):
     return render(request, 'enrolled_event_partai_kompetisi.html', context)
 
 def daftar_sponsor_untuk_atlet(request):
+    if request.session['role'] == 'atlet':
+        if request.session['qualified'] == False:
+            messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
+            return redirect('/atlet')
+        
     id_user = request.session['user_id']
 
     if request.method == "POST":
@@ -214,6 +237,11 @@ def daftar_sponsor_untuk_atlet(request):
     return render(request, 'daftar_sponsor_untuk_atlet.html', context)
 
 def list_sponsor(request):
+    if request.session['role'] == 'atlet':
+        if request.session['qualified'] == False:
+            messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
+            return redirect('/atlet')
+        
     id_user = request.session['user_id']
     sponsor = get_query("""
     SELECT DISTINCT s.nama_brand, sa.tgl_mulai, sa.tgl_selesai 
