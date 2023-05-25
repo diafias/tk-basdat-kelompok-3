@@ -16,7 +16,7 @@
 </head>
 </head>
 <body>
-    {% include 'navbar_atlet.html'%} 
+    {% include 'navbar_umpire.html'%} 
     <div class="container" style="padding-top:60px; padding-bottom:60px ;">
         <h4 style="text-align: center; font-weight:bold;">List Ujian Kualifikasi</h4>
         <br>
@@ -28,7 +28,6 @@
                     <th scope="col">Batch</th>
                     <th scope="col">Tempat Pelaksanaan</th>
                     <th scope="col">Tanggal Pelaksanaan</th>
-                    <th scope="col">Action</th>
                 </thead>
                 <tbody>
                     {% for ujian in info_ujian_kualifikasi %}
@@ -37,9 +36,6 @@
                         <td>{{ ujian.batch }}</td>
                         <td>{{ ujian.tempat }}</td>
                         <td>{{ ujian.tanggal }}</td>
-                        <td>
-                            <a href="{% url 'dashboard:pertanyaan_kualifikasi' %}" class="btn btn-outline-dark mr-3">Ikuti</a>
-                        </td>
                     </tr>
                     {% endfor %}
                     
