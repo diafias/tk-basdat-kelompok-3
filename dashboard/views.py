@@ -92,10 +92,9 @@ def list_atlet_create(request):
     if not nama_atlet:
         return list_atlet_create_fail(request, True)        
     
-    id_pelatih = request.session["member_id"]
     id_atlet = str(get_query(f"SELECT ID FROM MEMBER WHERE Nama='{nama_atlet}';")[0]["id"])
 
-    get_query(f"INSERT INTO ATLET_PELATIH VALUES ('{id_pelatih}', '{id_atlet}');")
+    get_query(f"INSERT INTO ATLET_PELATIH VALUES ('{id_user}', '{id_atlet}');")
     return render(request, 'list_atlet_pelatih.html')
 
 def list_atlet_create_fail(request, fail):
@@ -187,6 +186,7 @@ def list_atlet_umpire(request):
         'atlet_non_kualifikasi_list' : atlet_non_kualifikasi, 
         'atlet_ganda_list' : atlet_ganda,
     }
+    print (context)
     return render(request, 'list_atlet_umpire.html', context)
 
 def daftar_event(request):
@@ -199,7 +199,23 @@ def pilih_kategori(request):
     return render(request, 'pilih_kategori.html')
 
 def read_list_event(request):
-    return render(request, 'read_list_event.html')
+    partai_kompetisi = get_query("""SELECT E.Nama_event, E.Tahun, E.Nama_stadium, PK.Jenis_partai,
+    E.Kategori_Superseries, E.Tgl_mulai, E.Tgl_selesai, COUNT(PPK.nomor_peserta) AS jumlah_peserta, S.Kapasitas
+    FROM EVENT E, PARTAI_KOMPETISI PK, PARTAI_PESERTA_KOMPETISI PPK, STADIUM S
+    WHERE E.Nama_event=PK.Nama_event
+    AND E.Tahun=PK.Tahun_event
+    AND PK.Nama_event=PPK.Nama_event
+    AND PK.Tahun_event=PPK.Tahun_event
+    AND PK.Jenis_partai=PPK.Jenis_partai
+    AND E.Nama_stadium=S.Nama
+    GROUP BY E.Nama_event, E.Tahun, E.Nama_stadium, PK.Jenis_partai,
+    E.Kategori_Superseries, E.Tgl_mulai, E.Tgl_selesai, S.Kapasitas;
+    """)
+    context = {
+        "partai_kompetisi": partai_kompetisi
+    }
+    # print (partai_kompetisi)
+    return render(request, 'read_list_event.html', context)
 
 def hasil_pertandingan_page(request):
     return render(request, 'hasil_pertandingan_page.html')
@@ -326,3 +342,22 @@ def is_authenticated(request):
     except KeyError:
         return False
     
+    
+def partai_kompetisi_event(request):
+    partai_kompetisi = get_query("""SELECT E.Nama_event, E.Tahun, E.Nama_stadium, PK.Jenis_partai,
+    E.Kategori_Superseries, E.Tgl_mulai, E.Tgl_selesai, COUNT(PPK.nomor_peserta) AS jumlah_peserta, S.Kapasitas
+    FROM EVENT E, PARTAI_KOMPETISI PK, PARTAI_PESERTA_KOMPETISI PPK, STADIUM S
+    WHERE E.Nama_event=PK.Nama_event
+    AND E.Tahun=PK.Tahun_event
+    AND PK.Nama_event=PPK.Nama_event
+    AND PK.Tahun_event=PPK.Tahun_event
+    AND PK.Jenis_partai=PPK.Jenis_partai
+    AND E.Nama_stadium=S.Nama
+    GROUP BY E.Nama_event, E.Tahun, E.Nama_stadium, PK.Jenis_partai,
+    E.Kategori_Superseries, E.Tgl_mulai, E.Tgl_selesai, S.Kapasitas;
+    """)
+    request.session['nama_event'] = partai_kompetisi[0]['nama_event']
+    context = {
+        "partai_kompetisi": partai_kompetisi
+    }
+    return render(request, 'partai_kompetisi_event.html', context)
