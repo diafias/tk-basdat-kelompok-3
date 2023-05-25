@@ -4,6 +4,7 @@ from dashboard.views import pertanyaan_kualifikasi, list_atlet_pelatih, list_atl
 from dashboard.views import read_list_event, hasil_pertandingan_page, quarterfinals_page, finals_page, third_place_page
 from dashboard.views import semifinals_page, game_results_page, enrolled_event, enrolled_event_partai_kompetisi
 from dashboard.views import daftar_sponsor_untuk_atlet, list_sponsor, list_atlet_create, list_ujian_kualifikasi
+from dashboard.views import create_ujian_kualifikasi
 
 app_name = 'dashboard'
 
@@ -31,4 +32,5 @@ urlpatterns = [
     path('game_results_page/', game_results_page, name='game_results_page'),
     path('list_atlet_create/', list_atlet_create, name='list_atlet_create'),
     path('list_ujian_kualifikasi/', list_ujian_kualifikasi, name='list_ujian_kualifikasi'),
+    path('create_ujian_kualifikasi/', create_ujian_kualifikasi, name='create_ujian_kualifikasi'),
 ]
