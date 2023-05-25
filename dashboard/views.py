@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import redirect, render
 from project_django.utils import get_query
 from django.contrib import messages
@@ -108,6 +109,25 @@ def list_ujian_kualifikasi(request):
     return render(request, 'list_ujian_kualifikasi.html', context)
 
 def create_ujian_kualifikasi(request):
+    if request.method == "POST":
+        tahun = request.POST.get('tahun')
+        batch = request.POST.get('batch')
+        tempat = request.POST.get('tempat')
+        tanggal = request.POST.get('tanggal')
+
+        if tahun == "" or batch == "" or tempat == "" or tanggal == "":
+            messages.error(request, 'Please fill all the fields' )
+            return redirect('/create_ujian_kualifikasi')
+            
+        get_query("""
+        INSERT INTO UJIAN_KUALIFIKASI (tahun, batch, tempat, tanggal)
+        VALUES ('{tahun}', '{batch}', '{tempat}', '{tanggal}')
+        """.format(tahun = tahun, batch = batch, tempat = tempat, tanggal = tanggal))
+
+        messages.success(request, 'Ujian Kualifikasi berhasil dibuat')
+
+        return redirect('/list_ujian_kualifikasi')
+        
     return render(request, 'create_ujian_kualifikasi.html')
 
 def list_atlet_create(request):
