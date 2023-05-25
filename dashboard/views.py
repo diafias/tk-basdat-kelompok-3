@@ -119,10 +119,10 @@ def list_atlet_create(request):
     if not nama_atlet:
         return list_atlet_create_fail(request, True)        
     
-    id_atlet = str(get_query(f"SELECT ID FROM MEMBER WHERE Nama='{nama_atlet}';")[0]["id"])
+    id_atlet = str(get_query(f"SELECT ID FROM MEMBER WHERE Nama='{nama_atlet}';")[0].id)
 
     get_query(f"INSERT INTO ATLET_PELATIH VALUES ('{id_user}', '{id_atlet}');")
-    return render(request, 'list_atlet_pelatih.html')
+    return redirect("/list_atlet_pelatih")
 
 def list_atlet_create_fail(request, fail):
     list_atlet = get_query("SELECT M.Nama FROM MEMBER M, ATLET A WHERE M.ID=A.ID;")
@@ -137,14 +137,11 @@ def list_atlet_create_fail(request, fail):
 def list_atlet_pelatih(request):
     id_user = request.session['user_id']
     atlet_dilatih = get_query("""SELECT MA.Nama, MA.Email, A.World_rank
-                        FROM MEMBER MA, MEMBER MP, ATLET A, ATLET_PELATIH AP, PELATIH P 
-                        WHERE MA.ID=A.ID
-                        AND MP.ID=P.ID
-                        AND AP.ID_Pelatih=P.ID
-                        AND AP.ID_Atlet=A.ID
-                        AND MP.Nama='{}'
-                        AND AND a.id =  '{id_atlet}';
-                        """.format(id_atlet = id_user))
+                        FROM MEMBER MA
+                        JOIN ATLET_PELATIH AP ON MA.ID = AP.ID_ATLET
+                        JOIN ATLET A ON MA.ID = A.ID
+                        WHERE AP.id_pelatih = '{id_pelatih}';
+                        """.format(id_pelatih = id_user))
     context = {
         "atlet_dilatih": atlet_dilatih
     }
