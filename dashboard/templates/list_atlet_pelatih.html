@@ -21,22 +21,29 @@
         <h4 style="text-align: center; font-weight:bold;">Daftar Atlet</h4>
           <div class="card" style="max-width:500px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
             <div class="card-body">
-            <form>
-                <div class="col-md-12" style="padding-top:8px;">
-                    <label style="font-family: 'Montserrat', sans-serif;">Atlet yang mau didaftarkan</label> <br>
-                      <select name="atlet" id="atlet" class="form-select" aria-label="Default select example">
-                        <option value="jojo">Jojo</option>
-                        <option value="susanti">Susanti</option>
-                        <option value="michael">Michael</option>
-                        <option value="adi">Adi</option>
-                      </select>
-                      <br>
-                </div>
-
-                <div style="padding-top:10px; text-align:center;">
-                    <a href="{% url 'dashboard:list_atlet' %}" class="btn btn-outline-dark mr-3">Submit</a>
-                </div>
-            </form>
+              <table class="table">
+                <thead class="thead-primary">
+                  <tr>
+                    <th>Nama Atlet</th>
+                    <th>Email</th>
+                    <th>World Rank</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for atlet in atlet_dilatih %}
+                  <tr>
+                    <td>{{ atlet.nama }}</td>
+                    <td>{{ atlet.email }}</td>
+                    {% if atlet.world_rank %}
+                      <td>{{ atlet.world_rank }}</td>
+                    {% else %}
+                      <td>-</td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
           </div>
     </div>
