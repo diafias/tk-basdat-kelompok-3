@@ -154,98 +154,91 @@ def list_atlet_umpire(request):
     id_user = request.session['user_id']
 
     atlet_kualifikasi = get_query("""
-    SELECT DISTINCT m.nama, a.tgl_lahir, a.negara_asal, a.play_right, a.height, ak.world_rank, ak.world_tour_rank, a.jenis_kelamin, ph.total_point
-    FROM MEMBER m, ATLET a, ATLET_KUALIFIKASI ak, POINT_HISTORY ph
-    WHERE m.id = a.id AND a.id = ak.id_atlet
-    AND a.id = ph.id_atlet
-    AND total_point IN (
-        SELECT total_point FROM POINT_HISTORY
-        WHERE id_atlet = ph.id_atlet
-        ORDER BY (Tahun, Bulan, Minggu_ke) LIMIT 1
-    ) AND a.id =  '{id_atlet}'
-    """.format(id_atlet = id_user))
+    select distinct m.nama, a.tgl_lahir, a.negara_asal, a.play_right, a.height, ak.world_rank, ak.world_tour_rank, a.jenis_kelamin, SUM(ph.total_point) AS total_point
+    from member m 
+    join atlet a on m.id = a.id 
+    join atlet_kualifikasi ak on m.id = ak.id_atlet 
+    join point_history ph on a.id = ph.id_atlet
+    group by m.nama, a.tgl_lahir, a.negara_asal, a.play_right, a.height, ak.world_rank, ak.world_tour_rank, a.jenis_kelamin
+    """)
     
     atlet_non_kualifikasi = get_query("""
-    SELECT DISTINCT m.nama, a.tgl_lahir, a.negara_asal, a.play_right, a.height, a.world_rank, a.jenis_kelamin,  ph.total_point
+    SELECT DISTINCT m.nama, a.tgl_lahir, a.negara_asal, a.play_right, a.height, a.world_rank, a.jenis_kelamin, SUM(ph.total_point) AS total_point
     FROM MEMBER m, ATLET a, ATLET_NON_KUALIFIKASI ank, POINT_HISTORY ph
-    WHERE m.id = a.id AND a.id = ank.id_atlet AND a.id = ph.id_atlet 
-    AND total_point IN (
-        SELECT total_point FROM POINT_HISTORY
-        WHERE id_atlet = ph.id_atlet
-        ORDER BY (Tahun, Bulan, Minggu_ke) LIMIT 1
-    ) AND a.id =  '{id_atlet}'                 
-    """.format(id_atlet = id_user))
+    WHERE m.id = a.id AND a.id = ank.id_atlet AND a.id = ph.id_atlet      
+    GROUP BY m.nama, a.tgl_lahir, a.negara_asal, a.play_right, a.height, a.world_rank, a.jenis_kelamin      
+    """)
     
     get_query("""
-    CREATE VIEW NAMA1 AS
-    SELECT ag.id_atlet_ganda, ak.id_atlet, m.nama
-    FROM MEMBER m, ATLET_KUALIFIKASI ak, ATLET_GANDA ag, ATLET a
-    WHERE m.id = a.id and a.id = ak.id_atlet and ak.id_atlet = ag.id_atlet_kualifikasi and a.id =  '{id_atlet}'
-    """.format(id_atlet = id_user))
+    CREATE OR REPLACE VIEW NAMA1 AS
+    SELECT ag.id_atlet_ganda, ak.id_atlet, m.nama, SUM(ph.total_point) AS total_point
+    FROM MEMBER m
+    JOIN ATLET_KUALIFIKASI ak ON m.id = ak.id_atlet
+    JOIN ATLET_GANDA ag ON m.id = ag.id_atlet_kualifikasi
+    JOIN POINT_HISTORY ph ON m.id = ph.id_atlet
+    GROUP BY ag.id_atlet_ganda, ak.id_atlet, m.nama
+    """)
     
     get_query("""
-    CREATE VIEW NAMA2 AS
-    SELECT ag.id_atlet_ganda, ak.id_atlet, m.nama
-    FROM MEMBER m, ATLET_KUALIFIKASI ak, ATLET_GANDA ag, ATLET a
-    WHERE m.id = a.id and a.id = ak.id_atlet and ak.id_atlet = ag.id_atlet_kualifikasi_2 and a.id =  '{id_atlet}'
-    """.format(id_atlet = id_user))
+    CREATE OR REPLACE VIEW NAMA2 AS
+    SELECT ag.id_atlet_ganda, ak.id_atlet, m.nama, SUM(ph.total_point) AS total_point
+    FROM MEMBER m
+    JOIN ATLET_KUALIFIKASI ak ON m.id = ak.id_atlet
+    JOIN ATLET_GANDA ag ON m.id = ag.id_atlet_kualifikasi_2
+    JOIN POINT_HISTORY ph ON m.id = ph.id_atlet
+    GROUP BY ag.id_atlet_ganda, ak.id_atlet, m.nama
+    """)
     
     atlet_ganda = get_query("""
-    SELECT n1.id_atlet_ganda, n1.nama as nama1, n2.nama as nama2, SUM(pha.total_point + phb.total_point) as sum_total_point
-    FROM NAMA1 n1, NAMA2 n2, POINT_HISTORY pha, POINT_HISTORY phb
-    WHERE n1.id_atlet_ganda = n2.id_atlet_ganda AND pha.id_atlet = n1.id_atlet AND phb.id_atlet = n2.id_atlet
-    AND pha.total_point IN (
-        SELECT total_point FROM POINT_HISTORY
-        WHERE id_atlet = n1.id_atlet
-        ORDER BY Tahun, Bulan, Minggu_ke LIMIT 1
-    )
-    AND phb.total_point IN (
-        SELECT total_point FROM POINT_HISTORY
-        WHERE id_atlet = n2.id_atlet
-        ORDER BY Tahun, Bulan, Minggu_ke LIMIT 1
-    )
-    AND n1.id_atlet =  '{id_atlet}'
+    SELECT n1.id_atlet_ganda, n1.nama as nama1, n2.nama as nama2, SUM(n1.total_point + n2.total_point) as sum_total_point
+    FROM NAMA1 n1, NAMA2 n2
+    WHERE n1.id_atlet_ganda = n2.id_atlet_ganda
     GROUP BY n1.id_atlet_ganda, n1.nama, n2.nama
-    """.format(id_atlet = id_user))
+    """)
     
     context = {
         'atlet_kualifikasi_list': atlet_kualifikasi,
         'atlet_non_kualifikasi_list' : atlet_non_kualifikasi, 
         'atlet_ganda_list' : atlet_ganda,
     }
-    print (context)
+
     return render(request, 'list_atlet_umpire.html', context)
 
 def daftar_event(request):
-    if request.session['role'] == 'atlet':
-        if request.session['qualified'] == False:
-            messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
-            return redirect('/atlet')
-    id_user = request.session['user_id']
+    # if request.session['role'] == 'atlet':
+    #     if request.session['qualified'] == False:
+    #         messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
+    #         return redirect('/atlet')
     list_stadium = get_query("""
-    SELECT nama_stadium, negara, kapasitas
-    FROM STADIUM st, ATLET a
-    WHERE a.id_atlet = '{id_atlet}'
-    """.format(id_atlet=id_user))
+    SELECT nama, negara, kapasitas FROM STADIUM
+    """)
     context = {
         'list_stadium': list_stadium,
     }
     return render(request, 'daftar_event.html', context)
 
 def daftar_event2(request):
-    id_user = request.session['user_id']
     list_event = get_query("""
     SELECT E.nama_event, E.total_hadiah, E.kategori_superseries, S.kapasitas
-    FROM EVENT E, STADIUM S, ATLET A
-    WHERE S.nama = E.nama_stadium AND A.id_atlet = '{id_atlet}'
-    """.format(id_atlet=id_user))
+    FROM EVENT E, STADIUM S
+    WHERE S.nama = E.nama_stadium AND S.negara = E.negara
+    """)
     context = {
         'list_event': list_event,
     }
     return render(request, 'daftar_event2.html', context)
 
 def pilih_kategori(request):
-    return render(request, 'pilih_kategori.html')
+    list_kategori = get_query("""
+    SELECT E.nama_event, E.total_hadiah, E.tgl_mulai, E.tgl_selesai,
+    E.kategori_superseries, S.kapasitas, S.nama, S.negara, SP.spesialisasi, M.nama
+    FROM EVENT E, STADIUM S, SPESIALISASI SP, MEMBER M
+    WHERE S.nama = E.nama_stadium AND S.negara = E.negara AND SP.id_atlet = M.id 
+    """)
+    context = {
+        'list_kategori': list_kategori,
+    }
+    return render(request, 'pilih_kategori.html', context)
 
 def read_list_event(request):
     partai_kompetisi = get_query("""SELECT E.Nama_event, E.Tahun, E.Nama_stadium, PK.Jenis_partai,
@@ -353,10 +346,10 @@ def enrolled_event_partai_kompetisi(request):
     return render(request, 'enrolled_event_partai_kompetisi.html', context)
 
 def daftar_sponsor_untuk_atlet(request):
-    if request.session['role'] == 'atlet':
-        if request.session['qualified'] == False:
-            messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
-            return redirect('/atlet')        
+    # if request.session['role'] == 'atlet':
+    #     if request.session['qualified'] == False:
+    #         messages.error(request, 'Halaman ini hanya bisa diakses atlet terkualifikasi')
+    #         return redirect('/atlet')        
     id_user = request.session['user_id']
 
     if request.method == "POST":

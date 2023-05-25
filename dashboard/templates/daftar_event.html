@@ -33,7 +33,7 @@
                     <tbody>
                         {% for stadium in list_stadium %}
                         <tr>
-                            <th>{{ stadium.nama_stadium }}</th>
+                            <th>{{ stadium.nama }}</th>
                             <td>{{ stadium.negara }}</td>
                             <td>{{ stadium.kapasitas }}</td>
                             <td style="text-align:center;"><a href="{% url 'dashboard:daftar_event2' %}" class="btn btn-outline-dark mr-3">Pilih</a></td>
