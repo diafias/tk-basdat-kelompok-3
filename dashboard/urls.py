@@ -1,5 +1,5 @@
 from django.urls import path
-from dashboard.views import dashboard_atlet_page, dashboard_pelatih_page, dashboard_umpire_page, tes_kualifikasi
+from dashboard.views import create_ujian_kualifikasi, dashboard_atlet_page, dashboard_pelatih_page, dashboard_umpire_page, list_ujian_kualifikasi, tes_kualifikasi
 from dashboard.views import pertanyaan_kualifikasi, list_atlet_pelatih, list_atlet_umpire, daftar_event, daftar_event2, pilih_kategori
 from dashboard.views import read_list_event, hasil_pertandingan_page, quarterfinals_page, finals_page, third_place_page
 from dashboard.views import semifinals_page, game_results_page, enrolled_event, enrolled_event_partai_kompetisi
