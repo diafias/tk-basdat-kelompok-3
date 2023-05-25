@@ -1,5 +1,8 @@
 from django.shortcuts import redirect, render
 from project_django.utils import get_query
+import re
+from django.contrib import messages
+
 
 # Create your views here.
 def pilih_role(request):
@@ -15,12 +18,19 @@ def show_daftar_akun_atlet(request):
         play = request.POST.get('play')
         jenis_kelamin = request.POST.get('jenis_kelamin')
 
-        print(nama, email, negara, tanggal_lahir, tinggi_badan, play, jenis_kelamin)
-
-        get_query("""
+        if nama == "" or email == "" or negara == "" or tanggal_lahir == "" or tinggi_badan == "" or play == "" or jenis_kelamin == "":
+            messages.error(request, 'Please fill all the fields' )
+            return redirect('/daftar_akun_atlet')
+            
+        insert_member = get_query("""
         INSERT INTO MEMBER (nama, email)
         VALUES ('{nama_member}', '{email_member}')
         """.format(nama_member = nama, email_member = email))
+
+        is_error = re.search("^Email already exists", str(insert_member[0]))
+        if is_error:
+            messages.error(request, 'Email already exists' )
+            return redirect('/daftar_akun_atlet')
 
         id_member = get_query("""
         SELECT id FROM MEMBER
@@ -44,10 +54,19 @@ def show_daftar_akun_pelatih(request):
         tanggal_mulai = request.POST.get('tanggal_mulai')
         spesialisasi = request.POST.getlist('spesialisasi')
 
-        get_query("""
+        if nama == "" or email == "" or negara == "" or tanggal_mulai == "" or spesialisasi == []:
+            messages.error(request, 'Please fill all the fields' )
+            return redirect('/daftar_akun_pelatih')
+
+        insert_member = get_query("""
         INSERT INTO MEMBER (nama, email)
         VALUES ('{nama_member}', '{email_member}')
         """.format(nama_member = nama, email_member = email))
+
+        is_error = re.search("^Email already exists", str(insert_member[0]))
+        if is_error:
+            messages.error(request, 'Email already exists' )
+            return redirect('/daftar_akun_pelatih')
 
         id_member = get_query("""
         SELECT id FROM MEMBER
@@ -79,11 +98,20 @@ def show_daftar_akun_umpire(request):
         nama = request.POST.get('nama')
         email = request.POST.get('email')
         negara = request.POST.get('negara')
+
+        if nama == "" or email == "" or negara == "":
+            messages.error(request, 'Please fill all the fields' )
+            return redirect('/daftar_akun_umpire')
         
-        get_query("""
+        insert_member = get_query("""
         INSERT INTO MEMBER (nama, email)
         VALUES ('{nama_member}', '{email_member}')
         """.format(nama_member = nama, email_member = email))
+
+        is_error = re.search("^Email already exists", str(insert_member[0]))
+        if is_error:
+            messages.error(request, 'Email already exists' )
+            return redirect('/daftar_akun_umpire')
 
         id_member = get_query("""
         SELECT id FROM MEMBER 
@@ -140,4 +168,3 @@ def authenticate(request, nama, email):
         elif get_query("SELECT id FROM UMPIRE WHERE id = '{id_member}'".format(id_member = request.session['user_id'])) != []:
             request.session['role'] = 'umpire'
         return True
-    

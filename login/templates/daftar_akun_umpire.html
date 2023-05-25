@@ -17,6 +17,17 @@
 {% comment %} {% include 'navbar.html'%} {% endcomment %}
 <body>
     {% include 'navbar1.html'%} 
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags %}  
+                <!-- Error Alert -->
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <strong>Error!</strong> {{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     <div class="container" style="padding-top:190px ;">
         <h4 style="text-align: center; font-weight:bold;">Form Registrasi Umpire</h4>
           <div class="card" style="max-width:500px; margin-left:auto; margin-right:auto; background-color:#F5F5F5;">
